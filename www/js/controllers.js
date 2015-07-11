@@ -1,76 +1,115 @@
 angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $timeout, $cordovaDeviceMotion, $filter) {
-
+  var accel = null;
 	$scope.accelOn = false;
 
-  $scope.counter = 203910;
-
   $timeout(function() {
-    $scope.counter = $scope.counter + 500000;
-  },2500);
+    stopAccelerometer();
+  }, 10000);
 
   $scope.currentAccelX = 0;
   $scope.currentAccelY = 0;
   $scope.currentAccelZ = 0;
-  $scope.timestamp = ''
+  $scope.timestamp = '';
 
-  $scope.getAccelFreq = 0
+  $scope.getAccelFreq = 0;
+
+  $scope.suddenAccel = 0;
+  $scope.suddenDecel = 0;
+  $scope.currentlyAccel = false;
+  $scope.currentlyDecel = false;
+  $scope.lastZResult = 0;
+
+  // watch Acceleration
+  
+
+  document.addEventListener("deviceready", onDeviceReady, false);
+
+  function onDeviceReady() {
+    startAccelerometer();
+  }
+
+  function startAccelerometer() {
+    var options = { frequency: 50 };
+
+    accel = $cordovaDeviceMotion.watchAcceleration(options);
+
+    accel.then(
+      null,
+      function(error) {
+        // An error occurred
+      },
+      function(result) {
+        var threshold = 8;
+        $scope.getAccelFreq++
+        $scope.lastZResult = $scope.currentAccelZ;
+        $scope.currentAccelX = result.x;
+        $scope.currentAccelY = result.y;
+        $scope.currentAccelZ = result.z;
+        $scope.timestamp = $filter('date')(result.timestamp, 'medium', '+1000');
+
+        if (result.z < -threshold && $scope.lastZResult < -threshold) {
+          $scope.currentlyAccel = true;
+          $scope.currentlyDecel = false;
+        } else if (result.z < -threshold && $scope.lastZResult >= -threshold) {
+          $scope.suddenAccel++;
+          $scope.currentlyAccel = true;
+          $scope.currentlyDecel = false;
+        } else if (result.z >= -threshold && result.z <= threshold && $scope.lastZResult >= -threshold && $scope.lastZResult <= threshold) {
+          $scope.currentlyAccel = false;
+          $scope.currentlyDecel = false;
+        } else if (result.z > threshold && $scope.lastZResult <= threshold) {
+          $scope.suddenDecel++;
+          $scope.currentlyAccel = false;
+          $scope.currentlyDecel = true;
+        } else if (result.z > threshold && $scope.lastZResult > threshold) {
+          $scope.currentlyAccel = false;
+          $scope.currentlyDecel = true;
+        }
+      }
+    )
+  };
+
+  function stopAccelerometer() {
+    if (accel) {
+      $cordovaDeviceMotion.clearWatch(accel);
+      accel = null;
+    }
+  }
+  // var options = { frequency: 50 };
 
   // document.addEventListener("deviceready", function () {
 
-  //   $cordovaDeviceMotion.getCurrentAcceleration().then(function(result) {
-  //     var X = result.x;
-  //     var Y = result.y;
-  //     var Z = result.z;
-  //     var timeStamp = result.timestamp;
+  //   var watch = $cordovaDeviceMotion.watchAcceleration(options);
+  //   watch.then(
+  //     null,
+  //     function(error) {
+  //     // An error occurred
+  //     },
+  //     function(result) {
+  //       $scope.getAccelFreq++
+  //       var X = result.x;
+  //       var Y = result.y;
+  //       var Z = result.z;
+  //       var timeStamp = result.timestamp;
 
-  //     $scope.currentAccelX = X;
-  //     $scope.currentAccelY = Y;
-  //     $scope.currentAccelZ = Z;
-  //     $scope.timestamp = timeStamp;
-
-  //   }, function(err) {
-  //     // An error occurred. Show a message to the user
-  //     console.log("Couldn't get current Acceleration");
+  //       $scope.currentAccelX = X;
+  //       $scope.currentAccelY = Y;
+  //       $scope.currentAccelZ = Z;
+  //       $scope.timestamp = $filter('date')(timeStamp, 'medium', '+1000');
   //   });
 
+  //   // watch.clearWatch();
+  //   // // OR
+  //   // $cordovaDeviceMotion.clearWatch(watch)
+  //   //   .then(function(result) {
+  //   //     // success
+  //   //     }, function (error) {
+  //   //     // error
+  //   //   });
+
   // }, false);
-
-  // watch Acceleration
-  var options = { frequency: 50 };
-
-  document.addEventListener("deviceready", function () {
-
-    var watch = $cordovaDeviceMotion.watchAcceleration(options);
-    watch.then(
-      null,
-      function(error) {
-      // An error occurred
-      },
-      function(result) {
-        $scope.getAccelFreq++
-        var X = result.x;
-        var Y = result.y;
-        var Z = result.z;
-        var timeStamp = result.timestamp;
-
-        $scope.currentAccelX = X;
-        $scope.currentAccelY = Y;
-        $scope.currentAccelZ = Z;
-        $scope.timestamp = $filter('date')(timeStamp, 'medium', '+1000');
-    });
-
-    // watch.clearWatch();
-    // // OR
-    // $cordovaDeviceMotion.clearWatch(watch)
-    //   .then(function(result) {
-    //     // success
-    //     }, function (error) {
-    //     // error
-    //   });
-
-  }, false);
 
 })
 
