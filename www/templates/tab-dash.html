@@ -4,8 +4,8 @@
       <div class="item item-divider">Summary Data</div>
       <div class="item item-body">
         <div>
-        Sudden accelerations: {{suddenAccel}}<br>
-        Sudden decelerations: {{suddenDecel}}
+        Sudden accelerations: {{suddenAccelCount}}<br>
+        Sudden decelerations: {{suddenDecelCount}}
         </div>
       </div>
       <div class="item item-body">
@@ -18,10 +18,10 @@
     </div>
 
       <div class="item item-divider">Advanced Data</div>
-      <ion-toggle  ng-model="accelOn">
+      <ion-toggle  ng-model="showAdvData">
         View Advanced Data
       </ion-toggle>
-      <div ng-if="accelOn">
+      <div ng-if="showAdvData">
         <div class="item item-body">
           <div>
             Accelerometer Sample Counter: {{getAccelFreq}}

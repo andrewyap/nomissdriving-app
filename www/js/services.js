@@ -47,4 +47,26 @@ angular.module('starter.services', [])
       return null;
     }
   };
+})
+
+.factory('AccountSettings', function() {
+  var o = {
+    user: {
+      firstName: 'Olive',
+      lastName: 'Simpson'
+    },
+
+    doctor: {
+      name: 'Dr Jackson',
+      email: 'lawrence@drjackson.com.au'
+    }
+  };
+
+  return o;
+})
+
+.factory('DecelerationDB', function($firebaseArray) {
+  var decelRef = new Firebase('https://nomissdriving.firebaseio.com/decelerations');
+  return $firebaseArray(decelRef);
 });
+
