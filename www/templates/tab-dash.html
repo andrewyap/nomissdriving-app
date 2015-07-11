@@ -1,0 +1,58 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+    <div class="list card">
+      <div class="item item-divider">Recent Updates</div>
+      <div class="item item-body">
+        <div>
+          There is a fire in <b>sector 3</b>
+        </div>
+      </div>
+    </div>
+   <!--  <div class="list card">
+      <div class="item item-divider">Health</div>
+      <div class="item item-body">
+        <div>
+          You ate an apple today!
+        </div>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Upcoming</div>
+      <div class="item item-body">
+        <div>
+          You have <b>29</b> meetings on your calendar tomorrow.
+        </div>
+      </div>
+    </div> -->
+    <ion-toggle  ng-model="accelOn">
+      Start Accelerometer
+    </ion-toggle>
+    <div class="list card">
+      <div class="item item-divider">Testing123</div>
+      <div class="item item-body">
+        <div ng-if="accelOn">
+          CurrentX: {{currentAccelX}}<br>
+          CurrentY: {{currentAccelY}}<br>
+          CurrentZ: {{currentAccelZ}}<br>
+          Timestamp: {{timestamp}} 
+        </div>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Counter</div>
+      <div class="item item-body">
+        <div>
+          Counter: {{counter}}
+        </div>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Accelerometer Counter</div>
+      <div class="item item-body">
+        <div>
+          getAccelFreq: {{getAccelFreq}}
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
