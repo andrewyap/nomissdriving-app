@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $timeout, $cordovaDeviceMotion, $filter, DecelerationDB, AccountSettings) {
+.controller('NearMissesCtrl', function($scope, $timeout, $cordovaDeviceMotion, $filter, DecelerationDB, AccountSettings) {
   var accel = null;
 	$scope.showAdvData = false;
 
@@ -93,7 +93,11 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('StatsCtrl', function($scope) {
+
+})
+
+.controller('InfoCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -112,7 +116,7 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope, AccountSettings) {
+.controller('SettingsCtrl', function($scope, AccountSettings) {
 
   $scope.user = AccountSettings.user;
   $scope.doctor = AccountSettings.doctor;

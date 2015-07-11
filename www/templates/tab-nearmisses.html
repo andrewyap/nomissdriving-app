@@ -1,18 +1,22 @@
-<ion-view view-title="Accelerometer">
+<ion-view view-title="Near Misses">
   <ion-content class="padding">
     <div class="list card">
-      <div class="item item-divider">Summary Data</div>
-      <div class="item item-body">
-        <div>
-        Sudden accelerations: {{suddenAccelCount}}<br>
-        Sudden decelerations: {{suddenDecelCount}}
-        </div>
-      </div>
+      <div class="item item-divider">Current Movement</div>
       <div class="item item-body">
         <div>
           <span ng-if="currentlyAccel && !currentlyDecel"><b>CURRENTLY ACCELERATING!</b></span>
           <span ng-if="!currentlyAccel && !currentlyDecel">Neither Accelerating nor Decelerating</span>
           <span ng-if="!currentlyAccel && currentlyDecel"><b>CURRENTLY DECELERATING!</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="list card">
+      <div class="item item-divider">Summary Data</div>
+      <div class="item item-body">
+        <div>
+        Total Accelerations: {{suddenAccelCount}}<br>
+        Total Decelerations: {{suddenDecelCount}}
         </div>
       </div>
     </div>
