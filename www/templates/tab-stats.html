@@ -1,41 +1,10 @@
 <ion-view view-title="Stats">
   <ion-content class="padding">
     <div class="list card">
-      <div class="item item-divider">Current Movement</div>
+      <div class="item item-divider">Chart A!</div>
       <div class="item item-body">
         <div>
-          <span ng-if="currentlyAccel && !currentlyDecel"><b>CURRENTLY ACCELERATING!</b></span>
-          <span ng-if="!currentlyAccel && !currentlyDecel">Neither Accelerating nor Decelerating</span>
-          <span ng-if="!currentlyAccel && currentlyDecel"><b>CURRENTLY DECELERATING!</b></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="list card">
-      <div class="item item-divider">Summary Data</div>
-      <div class="item item-body">
-        <div>
-        Total Accelerations: {{suddenAccelCount}}<br>
-        Total Decelerations: {{suddenDecelCount}}
-        </div>
-      </div>
-    </div>
-
-      <div class="item item-divider">Advanced Data</div>
-      <ion-toggle  ng-model="showAdvData">
-        View Advanced Data
-      </ion-toggle>
-      <div ng-if="showAdvData">
-        <div class="item item-body">
-          <div>
-            Accelerometer Sample Counter: {{getAccelFreq}}
-          </div>
-        </div>
-        <div class="item item-body">          
-          CurrentX: {{currentAccelX}}<br>
-          CurrentY: {{currentAccelY}}<br>
-          CurrentZ: {{currentAccelZ}}<br>
-          Timestamp: {{timestamp}} 
+          <nvd3 options="options" data="data"></nvd3>
         </div>
       </div>
     </div>
