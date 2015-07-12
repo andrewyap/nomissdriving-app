@@ -58,16 +58,24 @@ angular.module('starter.services', [])
       }
     ];
 
+  var accelerometerData = [];
+
   var o = {
     addEntry: function(entry) {
       // console.log("Entry added: " + JSON.stringify(entry));
-      accelGraphData[0].values.push(entry);
+      accelerometerData.push(entry);              // Full data
+      if (accelGraphData[0].values.length >= 20) {  // Only 20 entries
+        accelGraphData[0].values.splice(0,1);
+        accelGraphData[0].values.push(entry);
+      } else {
+        accelGraphData[0].values.push(entry);  
+      }
+
+      console.log("no of data points: " + accelGraphData[0].values.length)
     },
 
-    readData: function() {
-      // console.log("Number of dataPoints: " + JSON.stringify(accelGraphData[0].values[accelGraphData[0].values.length - 1]));
-      return accelGraphData;
-    }
+    accelGraphData: accelGraphData,
+    accelerometerData: accelerometerData
   };
 
   return o;
@@ -87,6 +95,11 @@ angular.module('starter.services', [])
   };
 
   return o;
+})
+
+.factory('AccelerometerData', function($firebaseArray) {
+  var accelerometerRef = new Firebase('https://nomissdriving.firebaseio.com/accelerometerData');
+  return $firebaseArray(accelerometerRef);
 })
 
 .factory('DecelerationDB', function($firebaseArray) {

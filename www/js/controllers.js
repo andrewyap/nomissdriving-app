@@ -1,10 +1,11 @@
 angular.module('starter.controllers', [])
 
-.controller('NearMissesCtrl', function($scope, $timeout, $cordovaDeviceMotion, $filter, DecelerationDB, AccountSettings, $firebaseArray, GraphData) {
+.controller('NearMissesCtrl', function($scope, $timeout, $cordovaDeviceMotion, $filter, DecelerationDB, AccountSettings, $firebaseArray, GraphData, AccelerometerData) {
   var accel = null;
 	$scope.showAdvData = false;
 
   $scope.decels = DecelerationDB;
+  $scope.accelsData = AccelerometerData;
 
   $scope.currentAccelX = 0;
   $scope.currentAccelY = 0;
@@ -21,6 +22,14 @@ angular.module('starter.controllers', [])
 
   // watch Acceleration
   document.addEventListener("deviceready", onDeviceReady, false);
+  document.addEventListener("pause", onPause, false);
+
+  function onPause() {
+    $scope.accelsData.$add({
+            "accelData":       GraphData.accelerometerData,
+            "firebaseTimestamp": Firebase.ServerValue.TIMESTAMP
+          });
+  }
 
   function onDeviceReady() {
     startAccelerometer();
@@ -42,7 +51,7 @@ angular.module('starter.controllers', [])
         // An error occurred
       },
       function(result) {
-        var threshold = 6;
+        var threshold = 6.75;
         $scope.getAccelFreq++
         $scope.lastZResult = $scope.currentAccelZ;
         $scope.currentAccelX = result.x;
@@ -51,8 +60,6 @@ angular.module('starter.controllers', [])
         $scope.timestamp = $filter('date')(result.timestamp, 'medium', '+1000');
 
         GraphData.addEntry([result.timestamp, $scope.currentAccelZ]);
-
-        $scope.graphData = GraphData.readData();
 
         if (result.z < -threshold && $scope.lastZResult < -threshold) {
           $scope.currentlyAccel = true;
@@ -152,7 +159,7 @@ angular.module('starter.controllers', [])
   $scope.accelGraphOptions = {
     chart: {
         type: 'lineChart',
-        height: 300,
+        height: 200,
         margin : {
             top: 20,
             right: 20,
@@ -171,12 +178,11 @@ angular.module('starter.controllers', [])
             tickFormat: function(d) {
                 return d3.time.format('%x')(new Date(d))
             },
-            rotateLabels: 50,
-            showMaxMin: false
+            rotateLabels: 50
         },
         yAxis: {
             axisLabel: 'Y Axis',
-            axisLabelDistance: 35,
+            axisLabelDistance: 2,
             tickFormat: function(d){
                 return d3.format(',.1f')(d);
             }

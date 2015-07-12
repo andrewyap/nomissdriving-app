@@ -21,22 +21,21 @@
       </div>
     </div>
 
-      <div class="item item-divider">Advanced Data</div>
-      <ion-toggle  ng-model="showAdvData">
-        View Advanced Data
-      </ion-toggle>
-      <div ng-if="showAdvData">
-        <div class="item item-body">
-          <div>
-            Accelerometer Sample Counter: {{getAccelFreq}}
-          </div>
+    <div class="item item-divider">Advanced Data</div>
+    <ion-toggle  ng-model="showAdvData">
+      View Advanced Data
+    </ion-toggle>
+    <div ng-if="showAdvData">
+      <div class="item item-body">
+        <div>
+          Accelerometer Sample Counter: {{getAccelFreq}}
         </div>
-        <div class="item item-body">          
-          CurrentX: {{currentAccelX}}<br>
-          CurrentY: {{currentAccelY}}<br>
-          CurrentZ: {{currentAccelZ}}<br>
-          Timestamp: {{timestamp}} 
-        </div>
+      </div>
+      <div class="item item-body">          
+        CurrentX: {{currentAccelX}}<br>
+        CurrentY: {{currentAccelY}}<br>
+        CurrentZ: {{currentAccelZ}}<br>
+        Timestamp: {{timestamp}} 
       </div>
     </div>
   </ion-content>
