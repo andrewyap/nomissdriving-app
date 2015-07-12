@@ -1,11 +1,27 @@
 <ion-view view-title="Stats">
   <ion-content class="padding">
-    <div class="list card">
+    <div class="button-bar">
+      <a class="button" ng-click="selectDecelCount()">Deceleration Count</a>
+      <a class="button" ng-click="selectAccelGraph()">Accelerometer Graph</a>
+    </div>
+    <div class="list card" ng-if="showGraph==='decelCount'">
       <div class="item item-divider">Chart A!</div>
       <div class="item item-body">
         <div>
           <nvd3 options="options" data="data"></nvd3>
         </div>
+      </div>
+    </div>
+    <div class="list card" ng-if="showGraph==='accelGraph'">
+      <div class="item item-divider">Chart B!</div>
+      <div>
+        Data: {{JSON.stringify(graphData)}}
+      </div>
+      <div class="item item-body">
+        <div>
+          <nvd3 options="accelGraphOptions" data="accelGraphData"></nvd3>
+        </div>
+
       </div>
     </div>
   </ion-content>

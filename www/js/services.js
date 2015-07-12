@@ -49,6 +49,30 @@ angular.module('starter.services', [])
   };
 })
 
+.factory('GraphData', function() {
+  var accelGraphData = [
+      {
+        "key" : "Accelerometer" ,
+        "color": '#2ca02c',
+        "values" : []
+      }
+    ];
+
+  var o = {
+    addEntry: function(entry) {
+      // console.log("Entry added: " + JSON.stringify(entry));
+      accelGraphData[0].values.push(entry);
+    },
+
+    readData: function() {
+      // console.log("Number of dataPoints: " + JSON.stringify(accelGraphData[0].values[accelGraphData[0].values.length - 1]));
+      return accelGraphData;
+    }
+  };
+
+  return o;
+})
+
 .factory('AccountSettings', function() {
   var o = {
     user: {
